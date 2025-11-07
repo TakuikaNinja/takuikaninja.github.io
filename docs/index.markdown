@@ -10,5 +10,6 @@ title: Home
 
 Yup, I'm *finally* making a website! Expect a lot of changes while I figure out this Jekyll thing. 
 
+- [Posts](posts)
 - [About Me](about)
 

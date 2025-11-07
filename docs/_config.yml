@@ -29,6 +29,22 @@ twitter_username: ""
 github_username: TakuikaNinja
 show_downloads: false
 
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: TakuikaNinja
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      author: TakuikaNinja
+
 # Build settings
 remote_theme: pages-themes/hacker@v0.2.0
 plugins:
