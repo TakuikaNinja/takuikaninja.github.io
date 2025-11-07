@@ -1,1 +1,0 @@
-# takuikaninja.github.io
