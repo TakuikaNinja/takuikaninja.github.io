@@ -11,5 +11,6 @@ title: Home
 Yup, I'm *finally* making a website! Expect a lot of changes while I figure out this Jekyll thing. 
 
 - [Posts](posts)
+- [Family BASIC Typeins](family-basic-typeins)
 - [About Me](about)
 
