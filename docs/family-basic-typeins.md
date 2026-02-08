@@ -14,7 +14,7 @@ V2.0A & V2.1A. Compatibility with V3.0 is not guaranteed.
 
 ### Disassembler/Assembler/Monitor
 
-Three typeins which can disassemble 6502 machine code, assemble 6502 code (bytecode preview only), and view/edit memory contents.
+Three typeins by Norihito Ushijima (牛島憲人) which can disassemble 6502 machine code, assemble 6502 code (bytecode preview only), and view/edit memory contents.
 
 [Repo](https://github.com/TakuikaNinja/FamilyBASIC-DAM)
 
@@ -81,7 +81,7 @@ This typein accompanied the hardware modification article to demonstrate the cus
 
 #### CHR-ROM Dumping
 
-This typein is very similar to the one used for creating Disk BASIC. The primary difference is that this version dumps the two pattern tables into separate tape files. It appears that the Disk BASIC version modified this program to save all the CHR data into a single file instead.
+This typein dumps the two pattern tables into separate tape files. 
 
 ```
 10 CLEAR &H7700
@@ -173,14 +173,89 @@ See [here](/2025/12/25/fc-disk-basic) for more information on Disk BASIC.
 
 ### Character Editor
 
-A graphics editor, primarily targeting the 16x16 sprite characters. Data can be saved to/loaded from cassette tape.
+A graphics editor for Disk BASIC, primarily targeting the 16x16 sprite characters. Data can be saved to/loaded from cassette tape.
 
 [Repo](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor)
 
 ![Character editor menu screen](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor/raw/main/img/menu.png)
 
+### Creation Tools
+
+These typeins were provided in the Disk BASIC article to dump the Family BASIC cartridge data to tape format, in order to load them into a custom FDS program which creates Disk BASIC.
+
+#### CHR-ROM Dumping
+
+This is a modification of the typein from the CHR-RAM mod listed above. The CHR data is saved as a single file instead of two separate ones.
+
+```
+10 CLEAR &H7700
+20 RESTORE 200
+30 FOR I=0 TO 52
+40 READ A$:A=VAL("&H"+A$)
+50 POKE &H7700+I,A
+60 NEXT
+70 GOTO 400
+80 '
+200 DATA A9,0C,85,63          'LDA #0C   STA 63
+210 DATA A5,63,D0,FC          'LDA 63    BNE FC
+220 DATA AD,80,77             'LDA 7780
+230 DATA 8D,06,20             'STA 2006
+240 DATA AD,81,77             'LDA 7781
+250 DATA 8D,06,20             'STA 2006
+260 DATA A2,00                'LDX #00
+270 DATA AD,07,20             'LDA 2007
+280 DATA AD,07,20             'LDA 2007
+290 DATA 9D,00,07             'STA 0700,X
+300 DATA E8,D0,F7             'INX        BNE F7
+310 DATA A5,9D,8D,05,20       'LDA 9D     STA 2005
+320 DATA A5,69,8D,05,20       'LDA 69     STA 2005
+330 DATA A9,0B,85,63          'LDA #0B    STA 63
+340 DATA A5,63,D0,FC          'LDA 63     BNE FC
+350 DATA 60                   'RTS
+360 '
+400 '
+410 POKE &H500,4              '04=ASC
+420 POKE &H501,ASC("F"),ASC("O"),ASC("N"),ASC("T"),0,13
+430 POKE &H512,2,1            '0102 Bytes
+440 POKE &H514,&HFE,6         'Start=06FE
+450 POKE &H516,0,7
+460 CALL &HB4FC
+470 FOR I=0 TO 31:PRINT I;
+480 POKE &H6FE,0
+490 POKE &H6FF,I
+500 IF I=31 THEN POKE &H6FF,&HFF
+510 POKE &H7780,I
+520 POKE &H7781,0
+530 CALL &H7700
+540 CALL &HB50D
+550 NEXT
+```
+
+#### PRG-ROM Dumping
+
+This typein dumps the PRG-ROM data.
+
+```
+10 POKE &H500,1            'ファイルの種類はマシン語
+20 POKE &H501,ASC("B")     'ファイルネーム
+30 POKE &H502,ASC("A")
+40 POKE &H503,ASC("S")
+50 POKE &H504,ASC("1"),0,13
+60 POKE &H512,&HEF,&H5F    '8000Hから4000Hバイトセーブする
+70 POKE &H514,0,&H80
+80 POKE &H516,0,0
+90 CALL &HB4FC:CALL &HB50D
+```
+
+Translation of Japanese comments (`'` is the shorthand for `REM`):
+- ファイルの種類はマシン語 = file type is machine language
+- ファイルネーム = file name
+- 8000Hから4000Hバイトセーブする = save 4000H bytes of data starting from 8000H
+
+The third comment lists an incorrect data size. The POKE statement on that line (60) has 0x5FEF in little endian, so this is actually 0x5FF0 bytes between 0x8000-0xDFEF. This error is safe to ignore as comments are typically ignored when typing in listings.
+
 ## Family BASIC V3
 
-No typeins here yet.
+`SORRY NOTHING` - *Super Boy I* (SMS)
 
 
