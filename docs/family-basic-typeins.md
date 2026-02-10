@@ -6,7 +6,7 @@ permalink: /family-basic-typeins/
 
 # {{ page.title }}
 
-This page hosts Family BASIC typeins archived from period publications.
+This page hosts Family BASIC typeins archived from period publications. Shorter listings are presented in code blocks here and longer listings are hosted in external repositories.
 
 ## Family BASIC V2
 
@@ -14,7 +14,7 @@ V2.0A & V2.1A. Compatibility with V3.0 is not guaranteed.
 
 ### Disassembler/Assembler/Monitor
 
-Three typeins by Norihito Ushijima (牛島憲人) which can disassemble 6502 machine code, assemble 6502 code (bytecode preview only), and view/edit memory contents.
+Three typeins by Norihito Ushijima (牛島憲人) from Famicom Hacking Manual (ファミコン改造マニュアル) Vol. 3 which can disassemble 6502 machine code, assemble 6502 code (bytecode preview only), and view/edit memory contents.
 
 [Repo](https://github.com/TakuikaNinja/FamilyBASIC-DAM)
 
@@ -24,7 +24,7 @@ Three typeins by Norihito Ushijima (牛島憲人) which can disassemble 6502 mac
 
 ### CHR-RAM Mod
 
-A CHR-RAM modification of Family BASIC by Saburou Tama (多摩三郎) was documented in Backup Utilisation Techniques (バックアップ活用テクニック) Part 4. The hardware modification replaces the sprite pattern table with CHR-RAM, allowing for custom graphics while keeping the text characters (background pattern table) in CHR-ROM. The CHR-ROM data was intended to be dumped to casette tape beforehand so it could be reloaded later on. Typeins for the SHARP X1 were also provided to enable the loading, editing, and exporting of this data.
+A CHR-RAM modification of Family BASIC by Saburou Tama (多摩三郎) was documented in Backup Utilisation Techniques (バックアップ活用テクニック) Part 4. The hardware modification replaces the sprite pattern table with CHR-RAM, allowing for custom graphics while keeping the text characters (background pattern table) in CHR-ROM. The CHR-ROM data was intended to be dumped to cassette tape beforehand so it could be reloaded later on. Typeins for the SHARP X1 were also provided to enable the loading, editing, and exporting of this data.
 
 TODO:
 - SHARP X1 BASIC programs?
@@ -33,7 +33,7 @@ TODO:
 
 This typein accompanied the hardware modification article to demonstrate the custom graphics.
 
-```
+```BASIC
 10 CLEAR &H7700
 20 RESTORE 200
 30 FOR I=0TO 41
@@ -83,7 +83,7 @@ This typein accompanied the hardware modification article to demonstrate the cus
 
 This typein dumps the two pattern tables into separate tape files. 
 
-```
+```BASIC
 10 CLEAR &H7700
 20 RESTORE 200
 30 FOR I=0 TO 52
@@ -133,7 +133,7 @@ Note that this only loads one tape file, since the hardware modification only us
 
 The original listing erroneously used `&H7F8x` in lines 430/440 instead of the `&H778x` addresses used elsewhere. This has been corrected in the listing below.
 
-```
+```BASIC
 10 CLEAR &H7700
 20 RESTORE 200
 30 FOR I=0 TO 52
@@ -169,7 +169,9 @@ The original listing erroneously used `&H7F8x` in lines 430/440 instead of the `
 
 ## Disk BASIC
 
-See [here](/2025/12/25/fc-disk-basic) for more information on Disk BASIC.
+Disk BASIC is an unofficial Famicom Disk System (FDS) port of Family BASIC V2.1A, originally documented as a manual process in Backup Utilization Techniques Part 8 and Famicom Hacking Manual Vol. 2 & 3. I2 would later release the Disk BASIC Generator Kit for their [Souseiki Fammy](/2026/02/10/i2-souseiki-fammy) to automate the process and provide additional features.
+
+Please visit [this post](/2025/12/25/fc-disk-basic) for more information on Disk BASIC.
 
 ### Character Editor
 
@@ -177,7 +179,8 @@ A graphics editor for Disk BASIC, primarily targeting the 16x16 sprite character
 
 [Repo](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor)
 
-![Character editor menu screen](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor/raw/main/img/menu.png)
+![Character editor menu](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor/raw/main/img/menu.png)
+![Character editor screen](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor/raw/main/img/editor.png)
 
 ### Creation Tools
 
@@ -187,7 +190,7 @@ These typeins were provided in the Disk BASIC article to dump the Family BASIC c
 
 This is a modification of the typein from the CHR-RAM mod listed above. The CHR data is saved as a single file instead of two separate ones.
 
-```
+```BASIC
 10 CLEAR &H7700
 20 RESTORE 200
 30 FOR I=0 TO 52
@@ -235,7 +238,7 @@ This is a modification of the typein from the CHR-RAM mod listed above. The CHR 
 
 This typein dumps the PRG-ROM data.
 
-```
+```BASIC
 10 POKE &H500,1            'ファイルの種類はマシン語
 20 POKE &H501,ASC("B")     'ファイルネーム
 30 POKE &H502,ASC("A")
@@ -252,7 +255,7 @@ Translation of Japanese comments (`'` is the shorthand for `REM`):
 - ファイルネーム = file name
 - 8000Hから4000Hバイトセーブする = save 4000H bytes of data starting from 8000H
 
-The third comment lists an incorrect data size. The POKE statement on that line (60) has 0x5FEF in little endian, so this is actually 0x5FF0 bytes between 0x8000-0xDFEF. This error is safe to ignore as comments are typically ignored when typing in listings.
+The third comment lists an incorrect data size. The POKE statement on that line (60) has 0x5FEF in little endian, so this is actually 0x5FF0 bytes between 0x8000-0xDFEF. This error is safe to ignore as comments are typically omitted when typing in listings.
 
 ## Family BASIC V3
 
