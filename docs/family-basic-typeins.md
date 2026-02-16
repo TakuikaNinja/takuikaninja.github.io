@@ -18,9 +18,8 @@ Three typeins by Norihito Ushijima (牛島憲人) from Famicom Hacking Manual (�
 
 [Repo](https://github.com/TakuikaNinja/FamilyBASIC-DAM)
 
-![Disassembler screen](https://github.com/TakuikaNinja/FamilyBASIC-DAM/raw/main/disassembler/FC-D.ASM.png)
-![Assembler screen](https://github.com/TakuikaNinja/FamilyBASIC-DAM/raw/main/assembler/FC-ASM.png)
-![Monitor Screen](https://github.com/TakuikaNinja/FamilyBASIC-DAM/raw/main/monitor/FC-MONITOR_V2.png)
+<img src="https://github.com/TakuikaNinja/FamilyBASIC-DAM/raw/main/disassembler/FC-D.ASM.png" alt="Disassembler screen" width="50%"/><img src="https://github.com/TakuikaNinja/FamilyBASIC-DAM/raw/main/assembler/FC-ASM.png" alt="Assembler screen" width="50%"/>
+<img src="https://github.com/TakuikaNinja/FamilyBASIC-DAM/raw/main/monitor/FC-MONITOR_V2.png" alt="Monitor Screen" width="50%"/>
 
 ### CHR-RAM Mod
 
@@ -77,7 +76,7 @@ This typein accompanied the hardware modification article to demonstrate the cus
 570 DATA 80,00,FE,00,00,00,00,00,00,00,00,00,00,00,00,00
 ```
 
-![Kanji display](/assets/images/fcbasic-kanji-display.png)
+<img src="/assets/images/fcbasic-kanji-display.png" alt="Kanji display" width="50%"/>
 
 #### CHR-ROM Dumping
 
@@ -167,11 +166,77 @@ The original listing erroneously used `&H7F8x` in lines 430/440 instead of the `
 460 NEXT
 ```
 
+### Famicom Research
+
+These listings were published in a series of articles aimed at reverse-engineering the Famicom hardware & Family BASIC.
+
+#### BASIC Dump List
+
+This dumps/visualises the compiled token/bytecode format used by Family BASIC. Enter a starting address (E.g. 0x703E on V2, 0x6006 on V3), then hold the space key to pause the listing process as needed.
+- Book: Backup Utilization Techniques (バックアップ活用テクニック) Part 3
+- Article Author: Saburou Tama (多摩三郎)
+
+```BASIC
+10 INPUT "START ADDRESS? &H",A$
+20 A=VAL("&H"+A$)
+30 A$=HEX$(A)+"=":PRINT A$;
+40 TX=A
+50 PO=PEEK(A)
+60 FOR I=1TO PO:A$=RIGHT$("00"+HEX$(PEEK(TX)),2)+" ":PRINT A$;
+70 TX=TX+1:NEXT
+80 PRINT:PRINT "$$$$=";
+90 TX=A
+100 FOR I=1TO PO:B=PEEK(TX):IF B<&H20 THEN B=ASC(".")
+110 A$=CHR$(B):B$=A$+"  ":PRINT B$;
+120 TX=TX+1:NEXT
+130 A=A+PO
+140 IF INKEY$=" " THEN 140
+150 PRINT:GOTO 30
+```
+
+<img src="/assets/images/fcbasic-dumplist.png" alt="Dump listing" width="50%"/>
+
+#### PRG-ROM Dumping
+
+This dumps the Family BASIC PRG-ROM into 3 tape files.
+- Book: Backup Utilization Techniques (バックアップ活用テクニック) Part 3
+- Article Author: Saburou Tama (多摩三郎)
+
+```BASIC
+10 POKE &H500,1             'ファイルの種類はマシン語
+20 POKE &H501,ASC("B")      'ファイルネーム
+30 POKE &H502,ASC("A")
+40 POKE &H503,ASC("S")
+50 POKE &H504,ASC("1"),0,13
+60 POKE &H512,0,&H40        '8000H から4000Hバイト つまり
+70 POKE &H514,0,&H80        '8000H 〜BFFFH までセーブする
+80 POKE &H516,0,0
+90 CALL &HB4FC:CALL &HB50D  'V 3.0では CALL &HB430
+100 '                       '         CALL &HB401
+110 POKE &H504,ASC("2")
+120 POKE &H512,0,&H30       'C000H 〜EFFFH までセーブする
+130 POKE &H514,0,&HC0
+140 CALL &HB4FC:CALL &HB50D '100行に 同じ
+145 '
+150 POKE &H504,ASC("3")
+160 POKE &H512,0,&H10       'F000H 〜FFFFH までセーブする
+170 POKE &H514,0,&HF0
+180 CALL &HB4FC:CALL &HB50D '100行に 同じ
+```
+
+Translation of Japanese comments (`'` is the shorthand for `REM`):
+- ファイルの種類はマシン語 = file type is machine language
+- ファイルネーム = file name
+- 8000H から4000Hバイト つまり = 4000H bytes of data starting from 8000H, thus
+- AAAAH 〜BBBBH までセーブする = save AAAAH~BBBBH
+- V 3.0では CALL &HB430 CALL &HB401 = CALL &HB430 CALL &HB401 on V3.0
+- 100行に 同じ = same as line 100 (i.e. replace CALL addresses on V3)
+
 ## Disk BASIC
 
-Disk BASIC is an unofficial Famicom Disk System (FDS) port of Family BASIC V2.1A, originally documented as a manual process in Backup Utilization Techniques Part 8 and Famicom Hacking Manual Vol. 2 & 3. I2 would later release the Disk BASIC Generator Kit for their [Souseiki Fammy](/2026/02/10/i2-souseiki-fammy) to automate the process and provide additional features.
+Disk BASIC is an unofficial Famicom Disk System (FDS) port of Family BASIC V2.1A, originally documented as a manual process in Backup Utilization Techniques Part 8 and Famicom Hacking Manual Vol. 2 & 3. I2 would later release the Disk BASIC Generator Kit for their [Souseiki Fammy]({% link _posts/2026-02-10-i2-souseiki-fammy.md %}) to automate the process and provide additional features.
 
-Please visit [this post](/2025/12/25/fc-disk-basic) for more information on Disk BASIC.
+Please visit [this post]({% link _posts/2025-12-25-fc-disk-basic.md %}) for more information on Disk BASIC.
 
 ### Character Editor
 
@@ -179,8 +244,7 @@ A graphics editor for Disk BASIC, primarily targeting the 16x16 sprite character
 
 [Repo](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor)
 
-![Character editor menu](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor/raw/main/img/menu.png)
-![Character editor screen](https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor/raw/main/img/editor.png)
+<img src="https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor/raw/main/img/menu.png" alt="Character editor menu" width="50%"/><img src="https://github.com/TakuikaNinja/FC-DiskBASIC-CharEditor/raw/main/img/editor.png" alt="Character editor screen" width="50%"/>
 
 ### Creation Tools
 
@@ -236,7 +300,7 @@ This is a modification of the typein from the CHR-RAM mod listed above. The CHR 
 
 #### PRG-ROM Dumping
 
-This typein dumps the PRG-ROM data.
+This typein was modified from the program in the Famicom Hardware Research section listed above. It dumps the minimum amount of PRG-ROM data necessary for Family BASIC to work on the FDS.
 
 ```BASIC
 10 POKE &H500,1            'ファイルの種類はマシン語
@@ -255,7 +319,7 @@ Translation of Japanese comments (`'` is the shorthand for `REM`):
 - ファイルネーム = file name
 - 8000Hから4000Hバイトセーブする = save 4000H bytes of data starting from 8000H
 
-The third comment lists an incorrect data size. The POKE statement on that line (60) has 0x5FEF in little endian, so this is actually 0x5FF0 bytes between 0x8000-0xDFEF. This error is safe to ignore as comments are typically omitted when typing in listings.
+The data size listed in the third comment is unaltered from the original program. The POKE statement on that line (60) has 0x5FEF in little endian, so this is actually 0x5FEF bytes between 0x8000-0xDFEE. This error is safe to ignore as comments are typically omitted when typing in listings.
 
 ## Family BASIC V3
 
