@@ -41,7 +41,7 @@ Other projects:
 This excludes standalone original + remix albums and game jam contributions.
 
 - Fight of the Phoenix (NESmaker)
-- XenoCreeps (NESmaker demo) - Main theme arranged as shop theme in final version(?).
+- XenoCreeps (NESmaker demo), BioCreeps (NES) - Demo main theme arranged as shop theme in the final game.
 - Tiny Robbers (NESmaker)
 - Pinky! (NESmaker) - Original & Xmas Editions.
 - Paws N' Play (NESmaker)
