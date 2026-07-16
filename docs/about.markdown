@@ -49,6 +49,7 @@ This excludes standalone original + remix albums and game jam contributions.
 - Mirror World (PC, OHRRPGCE) - Battle theme.
 - Doodle World (NESmaker) - Original & Deluxe/Redrawn OSTs.
 - Doodle World 2 (NESmaker)
+- LarsGadiel (PC) - Originally an NES title.
 
 ## Socials
 
