@@ -50,6 +50,7 @@ This excludes standalone original + remix albums and game jam contributions.
 - Doodle World (NESmaker) - Original & Deluxe/Redrawn OSTs.
 - Doodle World 2 (NESmaker)
 - LarsGadiel (PC) - Originally an NES title.
+- 8 Bit Space 2 (NESmaker)
 
 ## Socials
 
