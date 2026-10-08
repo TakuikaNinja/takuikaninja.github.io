@@ -26,7 +26,7 @@ A bit of history since us westerners were obviously insulated from this - During
 - A MIDI cartridge interface
 - An RS232 cartridge interface (this one doesn't use the expansion port)
 - A native assembler/disassembler/monitor package
-- YM2413 FM sound expansion for the FDS (the wavetable technically has FM, but sure)
+- Extracting FDS audio from the RAM adapter's expansion port (though the article in question seems to have confused the expansion audio as YM3526-like FM synthesis instead of wavetable synthesis)
 - YM2149F PSG sound expansion for the FC (what a *gimmick!*)
 - Disabling the FDS drive's write protections for "dubbing" purposes
 - Family BASIC V2.1A on FDS ("Disk BASIC")
